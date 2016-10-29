@@ -48,47 +48,21 @@ public class registration extends Application{
         layout1.getChildren().addAll(label1,regButton,loginButton,loginAdmin);
         layout1.setAlignment(Pos.CENTER);
         regButton.setOnAction(e->{
-              boolean confirmation= popUpWindow.userReg("Enter Information Please", "Registration");
+              boolean confirmation= popUpWindow.userReg("Registration");
               System.out.println(confirmation);
         });
-//layout for regitration scene
-        /*VBox layout3 = new VBox (20);
-        //back= new Button ("Go Back");
-        Label label3 = new Label("Please Enter your Information");
-        layout3.getChildren().addAll(label3,back);
-        layout3.setAlignment(Pos.CENTER);
-        registrationScene = new Scene(layout3,400,400);
-        //back.setOnAction(e->popUpWindow.userReg(STYLESHEET_MODENA, STYLESHEET_MODENA));
-        */
+
         
         loginButton.setOnAction(e->{
-             boolean confirmation= popUpWindow.login("Enter username and password", "Login");
+             boolean confirmation= popUpWindow.login("Login");
               System.out.println(confirmation);
         }
         );
         
-        //layout for login scene
-        /*
-        VBox layout2 = new VBox (20);
-        back = new Button ("Go Back");
-        Label label2 = new Label("Please Enter Username and Password");
-        layout2.getChildren().addAll(label2,back);
-        layout2.setAlignment(Pos.CENTER);
-        loginScene = new Scene(layout2,400,400);
-        back.setOnAction(e->mainWindow.setScene(windowScene));
-     */
-        loginAdmin.setOnAction(e->popUpWindow.admin("Welcome Admin", "Login"));
+       
+        loginAdmin.setOnAction(e->popUpWindow.admin("Login Admin"));
         
-        //layout for admin scene
-        /*
-        VBox layout4 = new VBox (20);
-        back = new Button ("Go Back");
-        Label label4 = new Label("Enter Username and Password");
-        layout4.getChildren().addAll(label4,back);
-        layout4.setAlignment(Pos.CENTER);
-        adminScene = new Scene(layout4,400,400);
-        back.setOnAction(e->mainWindow.setScene(windowScene));
-*/
+      
         
        windowScene= new Scene(layout1, 500, 500);
        mainWindow.setTitle("Welcome to the Diet Planner!");
@@ -100,10 +74,7 @@ public class registration extends Application{
     
         
     }
-   // public void mainWindow(){
-       // start(mainWindow);
-        
-   // }
+  
 
 
     
