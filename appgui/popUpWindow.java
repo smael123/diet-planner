@@ -15,6 +15,7 @@ import javafx.scene.control.CheckBox;
  */
 public class popUpWindow {
     static boolean confirmation= false;
+    Profile profileObj = new Profile();
     
     public static boolean userReg( String title){
         Stage window = new Stage();
@@ -103,7 +104,7 @@ public class popUpWindow {
         
     }
     
-    public static boolean login(String title){
+    public boolean login(String title){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
@@ -137,12 +138,16 @@ public class popUpWindow {
         
         //confirm and send button
         Button login = new Button("Login");
+       
         GridPane.setConstraints(login,1,2);
         //save to database?
+   
+        
          login.setOnAction(e->{
              //call function to start diet and select restrictions
-             dietPlan.restrictions("Choose Restrictions");
+             profileObj.restrictions("Profile");
               System.out.println("Restrictions chosen");
+              
        
              
             confirmation= true;//save to database here 
@@ -164,7 +169,7 @@ public class popUpWindow {
     }
    
     
-    public static void admin(String title){
+    public void admin(String title){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);

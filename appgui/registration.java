@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 
 
 public class registration extends Application{
+    popUpWindow popUpWindowObj = new popUpWindow();
     Button regButton;
     Button loginButton;
     Button loginAdmin;
@@ -48,19 +49,19 @@ public class registration extends Application{
         layout1.getChildren().addAll(label1,regButton,loginButton,loginAdmin);
         layout1.setAlignment(Pos.CENTER);
         regButton.setOnAction(e->{
-              boolean confirmation= popUpWindow.userReg("Registration");
+              boolean confirmation= popUpWindowObj.userReg("Registration");
               System.out.println(confirmation);
         });
 
         
         loginButton.setOnAction(e->{
-             boolean confirmation= popUpWindow.login("Login");
+             boolean confirmation= popUpWindowObj.login("Login");
               System.out.println(confirmation);
         }
         );
         
        
-        loginAdmin.setOnAction(e->popUpWindow.admin("Login Admin"));
+        loginAdmin.setOnAction(e->popUpWindowObj.admin("Login Admin"));
         
       
         
