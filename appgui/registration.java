@@ -2,6 +2,7 @@ package appgui;
 
 
 import appgui.popUpWindow;
+import java.sql.Connection;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -55,6 +56,7 @@ public class registration extends Application{
 
         
         loginButton.setOnAction(e->{
+            
              boolean confirmation= popUpWindowObj.login("Login");
               System.out.println(confirmation);
         }
@@ -81,6 +83,9 @@ public class registration extends Application{
     
     
     public static void main(String args[]){
+        Connection conn = new DBConnection("Ismael","password").connect();
         Application.launch(args);
+        
+        
     }
 }
