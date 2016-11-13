@@ -15,7 +15,23 @@ import java.sql.SQLException;
  */
 public class DBConnection {
     private Connection DBConnection;
-    String url = "jbdc:mysql://localhost:3306/javaaap";
+    String url;
+    String username;
+    String password;
+    
+    public DBConnection(String url, String username, String password)
+    {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+    
+    public DBConnection()
+    {
+        url = "jbdc:mysql://localhost:3306/javaaap";
+        username = "root";
+        password = "";
+    }
     
     public Connection connect() 
     {
@@ -31,7 +47,7 @@ public class DBConnection {
         
         try
         {
-            DBConnection = DriverManager.getConnection(url, "root", "");
+            DBConnection = DriverManager.getConnection(url, username, password);
             System.out.println("Database Connected");
         }
         catch (SQLException se)
