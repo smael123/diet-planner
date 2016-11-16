@@ -18,7 +18,7 @@ public class DBConnection {
     String url;
     String username;
     String password;
-    public static final String defaultURL = "jdbc:mysql://localhost:3306/diet_planner";
+    public static final String defaultURL = "jdbc:mysql://localhost:3306/diet_planner?zeroDateTimeBehavior=convertToNull";
     
     
     public DBConnection(String url, String username, String password)
@@ -56,7 +56,7 @@ public class DBConnection {
         try
         {
             DBConnection = DriverManager.getConnection(url, username, password);
-            System.out.println("Database Connected");
+            System.out.println("checking database connection after creatin new user");
         }
         catch (SQLException se)
         {

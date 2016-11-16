@@ -1,5 +1,7 @@
 package appgui;
 
+import appgui.beans.Person;
+import appgui.tables.ManagerPerson;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.stage.*;
@@ -7,6 +9,9 @@ import javafx.stage.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.CheckBox;
 
 /**
@@ -37,9 +42,9 @@ public class popUpWindow {
         GridPane.setConstraints(username, 2,0);
         
         //confirm username
-        TextField username2 = new TextField();
-        username2.setPromptText("confirm username");
-        GridPane.setConstraints(username2, 2, 1);
+        //TextField username2 = new TextField();
+        //username2.setPromptText("confirm username");
+        //GridPane.setConstraints(username2, 2, 1);
         
         //password input
         TextField password = new TextField();
@@ -80,20 +85,46 @@ public class popUpWindow {
         Button reg = new Button("Register");
         GridPane.setConstraints(reg,4,5);
         
-        //save to database?
+        //insert given values to database
+        
+        
          reg.setOnAction(e->{
-             //data valiation
-            isInt(age, age.getText());
-            isInt(height,height.getText());
-            isInt(weight, weight.getText());
-            
-            
+             
+           // isInt(age, age.getText());
+           
+            //insert new row in database person
+            Person bean = new Person("carrie2","bambi","bambi");
+            //bean.setUsername(username.getText());
+            //bean.setPword(password.getText());
+            //bean.setPword2(password2.getText());
+          
+            /*if(isInt(age,age.getText()))
+                bean.setAge(age.getText());
+            if(isInt(height,height.getText()));
+                bean.setHeight(height.getText());
+            if(isInt(weight, weight.getText()));
+                bean.setWeight(weight.getText());
+            */
+                
+            try {
+                boolean result = ManagerPerson.insertPerson(bean);
+                System.out.println(result);
+                if(result){
+                    System.out.println("New row with primary key "+ bean.getId() + "was inserted");   
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+              
             confirmation= true;//saved
+             System.out.println(bean.getUsername());
+             System.out.println(bean.getPword());
+             System.out.println(bean.getPword());
             window.close();
         });
         
         
-        grid.getChildren().addAll(username, username2, password,password2, age,gender,height
+        grid.getChildren().addAll(username, password,password2, age,gender,height
           ,cancel,reg);
         
         Scene scene = new Scene(grid);

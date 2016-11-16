@@ -2,7 +2,10 @@ package appgui;
 
 
 import appgui.popUpWindow;
+import appgui.tables.ManagerPerson;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,7 +15,8 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBox;  
+import java.sql.SQLException;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -78,14 +82,29 @@ public class registration extends Application{
         
     }
   
-
-
-    
-    
-    public static void main(String args[]){
-        Connection conn = new DBConnection("Ismael","password").connect();
-        Application.launch(args);
+    public static void main(String args[]) throws SQLException{
         
+         Application.launch(args);
+        
+        
+        /*try(
+        Connection conn= new DBConnection().connect();
+        Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery ("SELECT * FROM person");
+                ){
+           // rs.last();
+            ManagerPerson.displayData(rs);
+                    
+                    
+             
+        
+             //System.out.println("Number of rows: " + rs.getRow());
+            Application.launch(args);
+             
+        }catch (SQLException e){
+            System.err.println(e);
+        }
+       */
         
     }
 }
