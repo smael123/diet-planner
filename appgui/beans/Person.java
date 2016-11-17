@@ -21,13 +21,17 @@ public class Person {
     private double BMI;
     private boolean athletic;
     
-   public Person (String username, String password, String password2){
+    
+   public Person(){}
+   
+   
+  /* public Person (String username, String password, String password2){
        this.username  = username;
        if(password2==password)
        this.pword= password;
    }
-
-    public int getId() {
+*/
+   public int getId() {
         return id;
     }
 
@@ -61,6 +65,9 @@ public class Person {
     public int getAge() {
         return age;
     }
+    public void setAge(int age){
+        this.age = age;
+    }
 
     public void setAge(String age) {
         int age2 = Integer.parseInt(age);
@@ -74,7 +81,9 @@ public class Person {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    
+    public void setHeight (int height){
+        this.height = height;
+    }
     public void setHeight(String height) {
         int height2  = Integer.parseInt(height);
         this.height = height2;
@@ -82,6 +91,9 @@ public class Person {
 
     public int getWeight() {
         return weight;
+    }
+    public void setWeight(int weight){
+        this.weight = weight;
     }
 
     public void setWeight(String weight) {
