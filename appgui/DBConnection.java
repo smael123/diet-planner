@@ -56,7 +56,7 @@ public class DBConnection {
         try
         {
             DBConnection = DriverManager.getConnection(url, username, password);
-            System.out.println("checking database connection after creatin new user");
+            System.out.println("checking database connection");
         }
         catch (SQLException se)
         {

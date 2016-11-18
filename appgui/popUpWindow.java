@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -87,17 +89,16 @@ public class popUpWindow {
         
         //insert given values to database
         
-        
+        //insert new row in database person
          reg.setOnAction(e->{
-             
-           // isInt(age, age.getText());
-           
-            //insert new row in database person
-            Person bean = new Person("carrie2","bambi","bambi");
-            //bean.setUsername(username.getText());
-            //bean.setPword(password.getText());
-            //bean.setPword2(password2.getText());
+             //Person bean = new Person("carrie2","bambi","bambi");
+            Person bean  = new Person();
+            bean.setUsername(username.getText());
+            bean.setPword(password.getText());
+            bean.setPword2(password2.getText());
           
+            
+            //validating data 
             /*if(isInt(age,age.getText()))
                 bean.setAge(age.getText());
             if(isInt(height,height.getText()));
@@ -110,16 +111,14 @@ public class popUpWindow {
                 boolean result = ManagerPerson.insertPerson(bean);
                 System.out.println(result);
                 if(result){
-                    System.out.println("New row with primary key "+ bean.getId() + "was inserted");   
+                    System.out.println("New row with primary key "+ bean.getId() + " was inserted");   
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
               
             confirmation= true;//saved
-             System.out.println(bean.getUsername());
-             System.out.println(bean.getPword());
-             System.out.println(bean.getPword());
+            
             window.close();
         });
         
@@ -175,9 +174,21 @@ public class popUpWindow {
    
         
          login.setOnAction(e->{
-             //call function to start diet and select restrictions
-             profileObj.restrictions("Profile");
-              System.out.println("Restrictions chosen");
+            
+            try {
+               Person bean= ManagerPerson.getPerson(username.getText());
+               if(bean==null){
+                   Util.alertBox("Error","User was not found");
+             }else{
+             System.out.println("Username: " + bean.getUsername());
+             System.out.println("Password: " + bean.getPword());
+             }
+            } catch (SQLException ex) {
+                Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+            // profileObj.restrictions("Profile");
+            // System.out.println("Restrictions chosen");
               
        
              
@@ -255,17 +266,7 @@ public class popUpWindow {
         
         
     }
-    private static boolean isInt(TextField input, String message){
-        try{
-            int age= Integer.parseInt(input.getText());
-            System.out.println("User is "+ age);
-            return true;
-        
-    }catch (NumberFormatException e){
-    System.out.println("Error" + message + "is not a number");
-    return false;
-}
-    }
+   
 }
     
     

@@ -95,9 +95,6 @@ public class registration extends Application{
            // rs.last();
             ManagerPerson.displayData(rs);
                     
-                    
-             
-        
              //System.out.println("Number of rows: " + rs.getRow());
             Application.launch(args);
              

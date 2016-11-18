@@ -33,9 +33,47 @@ public class ManagerPerson {
         }
         
     }
-    public static void getRow(){
+    public static Person getPerson(String username) throws SQLException{
+        String sql = "SELECT * FROM person WHERE username = ?";
+        ResultSet rs = null;
+        try (
+                Connection conn =new DBConnection().connect();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ){
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+               Person bean = new Person();
+               bean.setId(rs.getInt("id"));
+               bean.setUsername(rs.getString("username"));
+               bean.setPword(rs.getString("pword"));
+               bean.setAge(rs.getInt("age"));
+               bean.setGender(rs.getString("gender"));
+               bean.setHeight(rs.getInt("height"));
+               bean.setWeight(rs.getInt("weight"));
+               bean.setBMI(rs.getDouble("BMI"));
+               bean.setWeight(rs.getInt("weight"));
+               bean.setAthletic(rs.getBoolean("athletic"));
+               
+               return bean;
+                
+            }else{
+              
+              return null;
+            }          
+           
+        }catch(SQLException e){
+            System.err.println(e);
+            return null;
+        }finally{
+            if (rs != null){
+                rs.close();
+            }
+        }
         
     }
+        
+        
     public static boolean insertPerson(Person bean) throws SQLException{
         String sql = "INSERT into person (username,pword)" +
                 "VALUES (?,?)";
