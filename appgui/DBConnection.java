@@ -18,6 +18,8 @@ public class DBConnection {
     String url;
     String username;
     String password;
+    public static final String defaultURL = "jdbc:mysql://localhost:3306/diet_planner?zeroDateTimeBehavior=convertToNull";
+    
     
     public DBConnection(String url, String username, String password)
     {
@@ -26,16 +28,22 @@ public class DBConnection {
         this.password = password;
     }
     
+    public DBConnection(String username, String password)
+    {
+        this.url = defaultURL;
+        this.username = username;
+        this.password = password;
+    }
     public DBConnection()
     {
-        url = "jbdc:mysql://localhost:3306/javaaap";
+        url = defaultURL;
         username = "root";
         password = "";
     }
     
     public Connection connect() 
     {
-        try
+        /*try
         {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Conection estabilshed.");
@@ -43,12 +51,12 @@ public class DBConnection {
         catch (ClassNotFoundException cnfe)
         {
             System.out.println("Connection Failure" + cnfe);
-        }
+        }*/
         
         try
         {
             DBConnection = DriverManager.getConnection(url, username, password);
-            System.out.println("Database Connected");
+            System.out.println("checking database connection");
         }
         catch (SQLException se)
         {
