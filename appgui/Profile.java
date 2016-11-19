@@ -5,7 +5,13 @@
  */
 package appgui;
 
+import appgui.beans.Food;
 import static appgui.popUpWindow.confirmation;
+import appgui.tables.ManagerFood;
+import appgui.tables.ManagerPerson;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.application.Application;
@@ -100,6 +106,114 @@ public class Profile {
            VBox layout = new VBox (20);
            layout.setPadding(new Insets (20,20,20,20));
            layout.getChildren().addAll(logout, chooseRestrictions);
+                   
+ 
+        
+        Scene scene = new Scene(layout,500,500);
+        window.setScene(scene);
+        window.showAndWait();
+        
+        
+        
+    }
+    public void adminWindow(String title){
+        
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(500);
+        
+        Button logout= new Button("Logout");
+        logout.setOnAction(e->window.close());
+        
+        //confirm and send button
+        Button deleteFood = new Button("Delete food item");
+        TextField food = new TextField();
+        food.setPromptText("Food item to delete");
+        
+        
+        Button addFood = new Button ("Add food item");
+        TextField food2 = new TextField();
+        food2.setPromptText("Food itemt to add");
+        TextField foodType = new TextField();
+        foodType.setPromptText("Food Category");
+        
+        
+        addFood.setOnAction(e->{
+            System.out.println("addFood called");
+            Food bean  = new Food();
+            bean.setFoodName(food2.getText());
+            bean.setFoodType(foodType.getText());
+            
+            try {
+                boolean result = ManagerFood.addFood(bean);
+                System.out.println(result);
+                if(result){
+                    Util.alertBox("Success","Food added");
+                    System.out.println("New food with primary key "+ bean.getId() + " was inserted");   
+                }
+                else
+                {
+                    System.out.println("It didn't work...");
+                }
+            } catch (SQLException ex) {
+                System.err.println("exception caught: " + ex.getMessage());
+            }
+             
+            window.close();
+        });
+        
+   
+         
+        TextField username = new TextField();
+        username.setPromptText("Username to Delete");
+        Button deleteUser = new Button ("Delete User");
+        deleteUser.setOnAction(e->{
+            
+           
+            
+            
+        });
+        
+        
+        
+        //save al users selection when done
+        deleteFood.setOnAction(e->{
+           // methods from diet table  here 
+            
+            
+             
+        });
+        
+        
+        
+        
+        deleteUser.setOnAction(e->{
+            try {
+                
+                if(ManagerPerson.deletePerson(username.getText()))
+                {
+                    Util.alertBox("Sucess", "User was deleted");
+                    System.out.println("User deleted");
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+                Util.alertBox("Error", "User was not found");
+                System.err.println("No user found");
+            }
+            
+            
+            
+            
+        });
+        
+        
+           VBox layout = new VBox (20);
+           layout.setPadding(new Insets (20,20,20,20));
+           layout.getChildren().addAll(food,deleteFood,food2,foodType,addFood,username,deleteUser);
+           layout.getChildren().add(logout);
+           
                    
  
         
