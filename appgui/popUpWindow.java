@@ -174,6 +174,7 @@ public class popUpWindow {
    
         
          login.setOnAction(e->{
+
             
             try {
                Person bean= ManagerPerson.getPerson(username.getText());
@@ -190,8 +191,6 @@ public class popUpWindow {
             // profileObj.restrictions("Profile");
             // System.out.println("Restrictions chosen");
               
-       
-             
             confirmation= true;//save to database here 
             window.close();
         });

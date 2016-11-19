@@ -22,7 +22,7 @@ public class Diet {
     private int redMeat;
     private int shellfish;
     private int shrimp;
-     private int legume;
+    private int legume;
     private int lactose;
     private int gluten;
     private int whiteBread;
@@ -181,11 +181,5 @@ public class Diet {
 
     public void setCorn(int corn) {
         this.corn = corn;
-    }
-   
-    
-    
-    
-    
-    
+    }   
 }
