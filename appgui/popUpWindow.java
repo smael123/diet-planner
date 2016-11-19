@@ -161,6 +161,11 @@ public class popUpWindow {
         password.setPromptText("password");
         GridPane.setConstraints(password, 1, 1);
         
+        Hyperlink link = new Hyperlink("Forgot Password");
+        link.setOnAction(e->{
+            
+            
+        });
         //go back to main window button
         Button cancel= new Button("Cancel");
         GridPane.setConstraints(cancel,2,2);
@@ -183,15 +188,16 @@ public class popUpWindow {
              }else{
              System.out.println("Username: " + bean.getUsername());
              System.out.println("Password: " + bean.getPword());
+             profileObj.restrictions("Profile");
+             System.out.println("Restrictions chosen");
+              
              }
             } catch (SQLException ex) {
                 Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
-            // profileObj.restrictions("Profile");
-            // System.out.println("Restrictions chosen");
-              
+
             confirmation= true;//save to database here 
+
             window.close();
         });
         
@@ -245,6 +251,29 @@ public class popUpWindow {
         GridPane.setConstraints(adminLog,1,2);
         //save to database?
          adminLog.setOnAction(e->{
+             
+             try {
+                
+                Person bean= ManagerPerson.getPerson(adminUsername.getText());
+               if(bean==null){
+                   Util.alertBox("Error","Admin was not found");
+             }else{
+             System.out.println("Username: " + bean.getUsername());
+             System.out.println("Password: " + bean.getPword());
+             
+             Profile adminProfile = new Profile();
+             adminProfile.adminWindow("Welcome Admin");
+            
+             
+             
+             }
+            } catch (SQLException ex) {
+                Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                         
+             
+             
+             
             confirmation= true;//confimation
             //open new window to select plan
             //call function on det plan class
