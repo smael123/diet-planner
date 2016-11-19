@@ -22,6 +22,7 @@ public class NutritionalValue {
     private int cholesterolCount;
     private double vitaminBDV;
     private double vitaminCDV;
+    private double vitaminDDV;
     private double folicAcidDV;
     private double calciumDV;
 
@@ -219,6 +220,20 @@ public class NutritionalValue {
      */
     public void setCalciumDV(double calciumDV) {
         this.calciumDV = calciumDV;
+    }
+
+    /**
+     * @return the vitaminDDV
+     */
+    public double getVitaminDDV() {
+        return vitaminDDV;
+    }
+
+    /**
+     * @param vitaminDDV the vitaminDDV to set
+     */
+    public void setVitaminDDV(double vitaminDDV) {
+        this.vitaminDDV = vitaminDDV;
     }
     
 }
