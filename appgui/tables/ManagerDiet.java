@@ -105,6 +105,8 @@ public class ManagerDiet {
                 {
                     keys = stmt.getGeneratedKeys();
                     keys.next();
+//                    int newKey = keys.getInt(1);
+//                    dietBean.setId(newKey);
                 }
                 else
                 {
