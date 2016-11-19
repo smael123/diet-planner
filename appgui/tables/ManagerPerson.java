@@ -108,4 +108,54 @@ public class ManagerPerson {
         
     
     }
+    
+    
+    public static boolean deletePerson(String username) throws Exception{
+        String sql = "DELETE FROM person WHERE username = ?";
+        try(
+                Connection conn = new DBConnection().connect();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                
+                ){
+            stmt.setString(1, username);
+            int affected = stmt.executeUpdate();
+            
+            if(affected==1){
+                return true;
+            }else{
+                System.out.println("No user was found");
+                return false;
+                
+            }
+          
+        }catch (SQLException e){
+            System.err.println(e);
+            return false;
+        }
+        }
+    
 }
+        
+    /*public static boolean changePWord(Person bean){
+        String sql = "UPDATE person SET" + "username = ?, pword = ?" +
+                "WHERE username = ?";
+        
+        try(
+                Connection conn = Connecton().connect());
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ){
+                    stmt.
+                }
+                
+                
+    
+        
+    
+        
+        */
+        
+        
+    
+    
+
+
