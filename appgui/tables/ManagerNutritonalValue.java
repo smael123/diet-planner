@@ -5,6 +5,7 @@
  */
 package appgui.tables;
 
+
 import appgui.beans.NutritionalValue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
