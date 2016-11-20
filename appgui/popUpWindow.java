@@ -188,7 +188,7 @@ public class popUpWindow {
              }else{
              System.out.println("Username: " + bean.getUsername());
              System.out.println("Password: " + bean.getPword());
-             profileObj.restrictions("Profile");
+             profileObj.displayProfile(bean);
              System.out.println("Restrictions chosen");
               
              }
