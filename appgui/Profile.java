@@ -11,6 +11,7 @@ import static appgui.popUpWindow.confirmation;
 import appgui.tables.ManagerFood;
 import appgui.tables.ManagerPerson;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
@@ -79,12 +80,13 @@ public class Profile {
         
         //hyperlink event listeners
         musclePreference.setOnAction(e-> {
-            try {
-                ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername());
-            } catch (SQLException ex) {
-                System.err.println(ex.getMessage());
+            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername());
+            for (Food x : pickedFoods)
+            {
+                System.out.println(x.getFoodName());
             }
-        
+            
+            //And take his picked foods and put his foods in the MealSchedule based on userId
         });
         
         
