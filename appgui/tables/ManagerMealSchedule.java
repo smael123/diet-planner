@@ -13,54 +13,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
  * @author Carrie Dumit
  */
 public class ManagerMealSchedule {
-    public static MealSchedule getMealSchedule(int userId) throws SQLException
-    {
-        String sql = "SELECT * FROM mealSchedule WHERE userId = ?";
-        ResultSet rs = null;
-
-        try (Connection conn = null;
-             PreparedStatement stmt = conn.prepareStatement(sql);)
-        {
-            stmt.setString(1, Integer.toString(userId));
-            rs = stmt.executeQuery(sql);
-            
-            if (rs.next())
-            {
-                MealSchedule mealBean = new MealSchedule();
-                mealBean.setId(rs.getInt("id"));
-                mealBean.setUserId(rs.getInt("userId"));
-                mealBean.setFoodId(rs.getInt("foodId"));
-                mealBean.setQuantity(rs.getInt("quantity"));
-                mealBean.setDay(rs.getInt("day"));
-                mealBean.setDayTime(rs.getInt("dayTime"));
-                
-                return mealBean;
-            }
-            else
-            {
-                System.err.println("No rows affected");
-                return null;
-            }
-        }
-        catch (SQLException ex) 
-        {
-            System.err.println(ex.getMessage());
-            return null;        
-        }
-        finally
-        {
-            if (rs != null)
-            {   
-                 rs.close();   
-            }
-        }       
-    }
+    
     public static boolean setMealSchedule(MealSchedule mealBean) throws SQLException
     {
         String sql = "INSERT into mealschedule (userId, foodId, quantity, day, dayTime) " +
@@ -103,7 +64,45 @@ public class ManagerMealSchedule {
             }
             
             return true;
+    }
+    
+    public static ObservableList<MealSchedule> getMealScheduleList(int userId) throws SQLException
+    {
+        String sql = "SELECT * FROM mealSchedule WHERE userId";
+        ResultSet rs = null;
+        ObservableList<MealSchedule> meals = FXCollections.observableArrayList();
+
+        try (Connection conn = null;
+             PreparedStatement stmt = conn.prepareStatement(sql);)
+        {
+            rs = stmt.executeQuery(sql);
             
-            
+            while (rs.next())
+            {
+                MealSchedule mealBean = new MealSchedule();
+                mealBean.setId(rs.getInt("id"));
+                mealBean.setUserId(rs.getInt("userId"));
+                mealBean.setFoodId(rs.getInt("foodId"));
+                mealBean.setQuantity(rs.getInt("quantity"));
+                mealBean.setDay(rs.getInt("day"));
+                mealBean.setDayTime(rs.getInt("dayTime"));
+                
+                meals.add(mealBean);
+            }   
+        }
+        catch (SQLException ex) 
+        {
+            System.err.println(ex.getMessage());
+            return null;        
+        }
+        finally
+        {
+            if (rs != null)
+            {   
+                 rs.close();   
+            }
+        }
+        
+        return meals;
     }
 }

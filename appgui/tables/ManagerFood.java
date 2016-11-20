@@ -7,12 +7,16 @@ package appgui.tables;
 
 import appgui.DBConnection;
 import appgui.beans.Food;
+import appgui.beans.MealSchedule;
 import appgui.beans.Person;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -52,10 +56,52 @@ public class ManagerFood {
                         if (keys!=null)keys.close();
         }
         return true;
-    
-        
-    
     }
     
+    public static ObservableList<Food> getApplicableMuscleFoods(int userId) throws SQLException
+    {
+        String sql = "{call getApplicableMuscleFood(?)}";
+        ResultSet rs = null;
+        ObservableList<Food> foodList = FXCollections.observableArrayList();
+
+        try (Connection conn = null;
+             CallableStatement stmt = conn.prepareCall(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);)
+        {
+            int numberOfRows = 0;
+            
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
+            
+            while (rs.next())
+            {
+                numberOfRows++;
+                Food foodBean = new Food();
+                foodBean.setFoodName(rs.getString("foodName"));
+                foodBean.setFoodType(rs.getString("foodType"));
+                
+                foodList.add(foodBean);
+            }   
+            
+            if (numberOfRows == 0)
+            {
+                foodList.add(new Food());
+            }
+        }
+        catch (SQLException ex) 
+        {
+            System.err.println(ex.getMessage());
+            foodList.add(new Food());
+            return foodList;        
+        }
+        finally
+        {
+            if (rs != null)
+            {   
+                 rs.close();   
+            }
+        }
+        
+        return foodList;
+    }
     
 }

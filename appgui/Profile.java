@@ -6,6 +6,7 @@
 package appgui;
 
 import appgui.beans.Food;
+import appgui.beans.Person;
 import static appgui.popUpWindow.confirmation;
 import appgui.tables.ManagerFood;
 import appgui.tables.ManagerPerson;
@@ -32,11 +33,12 @@ import javafx.scene.layout.VBox;
 public class Profile {
     dietPlan dietPlanObj= new dietPlan();
     //user's profile with personal information, restrictions, and diet plan
-    public void restrictions (String title ){
+    public void displayProfile (Person personBean){
+        
         
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle("Welcome " + personBean.getUsername());
         window.setMinWidth(500);
         
         Button logout= new Button("Logout");
@@ -65,13 +67,30 @@ public class Profile {
              //window.close();
         });
         
+        Hyperlink musclePreference;
+        Hyperlink loseWeightPreference;
+        Hyperlink stayHealthyPreference;
+        
+        Label choosePreferenceLabel = new Label("Choose your diet preference");
+        
+        musclePreference = new Hyperlink("Get buff!");
+        loseWeightPreference = new Hyperlink("Lose Weight");
+        stayHealthyPreference = new Hyperlink("Stay Healthy");
+        
+        //hyperlink event listeners
+        musclePreference.setOnAction(e-> {
+            try {
+                ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername());
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        
+        });
         
         
-        
-        
-           VBox layout = new VBox (20);
-           layout.setPadding(new Insets (20,20,20,20));
-           layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet);
+        VBox layout = new VBox (20);
+        layout.setPadding(new Insets (20,20,20,20));
+        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, choosePreferenceLabel, musclePreference, loseWeightPreference, stayHealthyPreference);
                    
  
         
@@ -225,7 +244,21 @@ public class Profile {
         
     }
     
-    
+    public void preferences()
+    {
+        Hyperlink musclePreference;
+        Hyperlink loseWeightPreference;
+        Hyperlink stayHealthyPreference;
+        
+        Label choosePreferenceLabel = new Label("Choose your diet preference");
+        
+        musclePreference = new Hyperlink("Get buff!");
+        loseWeightPreference = new Hyperlink("Lose Weight");
+        stayHealthyPreference = new Hyperlink("Stay Healthy");
+        
+        
+        
+    }
             
     }
    
