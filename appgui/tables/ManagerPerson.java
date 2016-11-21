@@ -134,26 +134,35 @@ public class ManagerPerson {
         }
         }
     
-}
-        
-    /*public static boolean changePWord(Person bean){
-        String sql = "UPDATE person SET" + "username = ?, pword = ?" +
+    
+    
+    public static boolean updatePword(Person bean)throws Exception{
+        String sql = "UPDATE person SET " + "pword = ?" + 
                 "WHERE username = ?";
         
         try(
-                Connection conn = Connecton().connect());
+                Connection conn =new DBConnection().connect();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ){
-                    stmt.
-                }
-                
-                
+            
+            stmt.setString(2, bean.getUsername());
+            stmt.setString(1, bean.getPword());
+            
+            int affected = stmt.executeUpdate();
+            if(affected==1){
+                return true;}
+                else {return false;}
+            }
+        catch (SQLException e){
+            System.err.println(e);
+            return false;
+        }    
+    }
     
+    
+}
         
     
-        
-        */
-        
         
     
     

@@ -139,33 +139,23 @@ public class popUpWindow {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(500);
-        
-        
-        
+
         //user enter info here 
         GridPane grid2  = new GridPane();
         grid2.setPadding(new Insets(10,10,10,10));
         grid2.setVgap(8);
         grid2.setHgap(10);
         
-       
-        
         //username input
         TextField username = new TextField("");
         username.setPromptText("username");
         GridPane.setConstraints(username,1,0);
         
- 
         //password 
         TextField password = new TextField();
         password.setPromptText("password");
         GridPane.setConstraints(password, 1, 1);
         
-        Hyperlink link = new Hyperlink("Forgot Password");
-        link.setOnAction(e->{
-            
-            
-        });
         //go back to main window button
         Button cancel= new Button("Cancel");
         GridPane.setConstraints(cancel,2,2);
@@ -175,8 +165,29 @@ public class popUpWindow {
         Button login = new Button("Login");
        
         GridPane.setConstraints(login,1,2);
-        //save to database?
-   
+        
+        
+        Hyperlink link = new Hyperlink("Forgot Password");
+        link.setOnAction(e->{
+             
+            try {
+                 Person bean = ManagerPerson.getPerson(username.getText());
+                 if(bean==null){
+                   Util.alertBox("Whoops!!", "Enter username first");
+                   login("Login");
+                 }else{
+                   Util.updatePword("Reset Password", username.getText());
+                   System.out.println("Username: " + bean.getUsername() + "password was updated");
+                 
+            }
+            }catch (SQLException ex) {
+                Logger.getLogger(popUpWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+               
+           
+            window.close();
+        });
+        
         
          login.setOnAction(e->{
 
@@ -203,7 +214,7 @@ public class popUpWindow {
         
         
         grid2.getChildren().addAll(username,
-                password,cancel,login);
+                password,cancel,login,link);
         
  
         

@@ -5,6 +5,10 @@
  */
 package appgui;
 
+import appgui.beans.Person;
+import appgui.tables.ManagerPerson;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -51,5 +55,57 @@ public class Util {
         window.showAndWait();
         
     }
+    public static boolean updatePword(String title,String enterUsername){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(400);
+        
+        Label username = new Label();
+        username.setText(enterUsername);
+        TextField password = new TextField();
+        password.setPromptText("New password");
+        TextField comfirmPassword = new TextField();
+        comfirmPassword.setPromptText("Comfim password");
+        
+        Button done = new Button ("Done");
+        
+        done.setOnAction(e->{
+            
+            try {
+            Person bean = ManagerPerson.getPerson(username.getText());
+            System.out.println("User not found");
+           
+            // bean.setUsername(username.getText());
+             bean.setPword(password.getText());
+             bean.setPword2(comfirmPassword.getText());
+             
+                if(ManagerPerson.updatePword(bean)){
+                    Util.alertBox("Password Update", "Sucess");
+                }else {
+                    Util.alertBox("Password Update", "Whoops not matching");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+            
+            window.close();
+            
+                    
+        });
+        
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(username,password,comfirmPassword,done);
+        layout.setAlignment(Pos.CENTER);
+        
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+        
+        
+        return true;
+    }
     
 }
+    
