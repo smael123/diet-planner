@@ -52,7 +52,7 @@ public class ApplicableFoodGUI {
     //maybe make this a set because they might pick the same thing twice
     private static ArrayList<Food> pickedFoods;
     
-    public static ArrayList<Food> display(int userId, String username)
+    public static ArrayList<Food> display(int userId, String username, int preferenceType)
     {
         System.out.println("ID: " + userId + " Username: " + username);
         
@@ -90,7 +90,20 @@ public class ApplicableFoodGUI {
         foodTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         try 
         {
-            foodTable.setItems(ManagerFood.getAllFoods(userId));
+            switch (preferenceType)
+            {
+                case 0:
+                    foodTable.setItems(ManagerFood.getAllFoods(userId));
+                case 1:
+                    foodTable.setItems(ManagerFood.getApplicableMuscleFoods(userId));
+                case 2:
+                    foodTable.setItems(ManagerFood.getApplicableThinFoods(userId));
+                default:
+                    System.out.println("Preference type: " + preferenceType + " is not valid.");
+ 
+            }
+                    
+            
         } 
         catch (SQLException ex) 
         {
