@@ -74,43 +74,41 @@ public class ManagerDiet {
     
     public static boolean setRestrictions(Diet dietBean) throws SQLException
         {
-            String sql = "INSERT into diet (dailyCalorieCount, dailyFatCount, dailyCarbCount, dailyCholesterolCount, egg, seafood, redMeat, shellfish, shrimp, "
-                    + "legume, lactose, gluten, whiteBread, wheat, oats, rice, corn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE userId = ?";
+            String sql = "UPDATE diet SET egg=?, seafood =?, redMeat =?, shellfish =?, shrimp =?, "
+                    + "legume =?, lactose =?, gluten =?, whiteBread =?, wheat =?, oats =?, rice =?, corn =?,nuts =?, citrus =? WHERE userId = ?";
             ResultSet keys = null;
             
             try(Connection conn = new DBConnection().connect();
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);)
+                PreparedStatement stmt = conn.prepareStatement(sql);)
             {
-                stmt.setInt(1, dietBean.getDailyCalorieCount());
-                stmt.setInt(2, dietBean.getDailyFatCount());
-                stmt.setInt(3, dietBean.getDailyCarbCount());
-                stmt.setInt(4, dietBean.getDailyCholesterolCount());
-                stmt.setInt(5, dietBean.getEgg());
-                stmt.setInt(6, dietBean.getSeafood());
-                stmt.setInt(7, dietBean.getRedMeat());
-                stmt.setInt(8, dietBean.getShellfish());
-                stmt.setInt(9, dietBean.getShrimp());
-                stmt.setInt(10, dietBean.getLegume());
-                stmt.setInt(11, dietBean.getLactose());
-                stmt.setInt(12, dietBean.getGluten());
-                stmt.setInt(13, dietBean.getWhiteBread());
-                stmt.setInt(14, dietBean.getWheat());
-                stmt.setInt(15, dietBean.getOats());
-                stmt.setInt(16, dietBean.getRice());
-                stmt.setInt(17, dietBean.getCorn());
+                
+                stmt.setInt(1, dietBean.getEgg());
+                stmt.setInt(2, dietBean.getSeafood());
+                stmt.setInt(3, dietBean.getRedMeat());
+                stmt.setInt(4, dietBean.getShellfish());
+                stmt.setInt(5, dietBean.getShrimp());
+                stmt.setInt(6, dietBean.getLegume());
+                stmt.setInt(7, dietBean.getLactose());
+                stmt.setInt(8, dietBean.getGluten());
+                stmt.setInt(9, dietBean.getWhiteBread());
+                stmt.setInt(10, dietBean.getWheat());
+                stmt.setInt(11, dietBean.getOats());
+                stmt.setInt(12, dietBean.getRice());
+                stmt.setInt(13, dietBean.getCorn());
+                stmt.setInt(14, dietBean.getNuts());
+                stmt.setInt(15, dietBean.getCitrus());
+                stmt.setInt(15, dietBean.getCitrus());
+                stmt.setInt(16, dietBean.getUserId());
                 
                 int affected = stmt.executeUpdate();
                 
                 if (affected == 1)
                 {
-                    keys = stmt.getGeneratedKeys();
-                    keys.next();
-//                    int newKey = keys.getInt(1);
-//                    dietBean.setId(newKey);
+                    System.out.println("Successful Query");
                 }
                 else
                 {
-                    System.err.println("No rows affected");
+                    System.err.println(affected + " rows affected.");
                     return false;
                 }
             } 

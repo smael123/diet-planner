@@ -51,10 +51,14 @@ public class Profile {
         GridPane.setConstraints(chooseRestrictions,2,2);
         //save al users selection when done
         chooseRestrictions.setOnAction(e->{
-            dietPlanObj.restrictions("Restrictions");
-            dietPlanObj.handleRestrictions();
+            dietPlanObj.restrictions(personBean.getId());
+            try {
+                dietPlanObj.handleRestrictions(personBean.getId());
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-             //window.close();
+             window.close();
         });
         
         //confirm and send button
@@ -103,7 +107,7 @@ public class Profile {
         
         
     }
-    public void modifyDiet (String title ){
+    /*public void modifyDiet (String title ){
         
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -115,14 +119,12 @@ public class Profile {
         logout.setOnAction(e->window.close());
         
         //confirm and send button
-        Button chooseRestrictions = new Button("Choose Restrictions");
+        Button chooseRestrictions = new Button("Change Restrictions");
         GridPane.setConstraints(chooseRestrictions,2,2);
         //save al users selection when done
         chooseRestrictions.setOnAction(e->{
-            dietPlanObj.restrictions("Restrictions");
-            dietPlanObj.handleRestrictions();
-            
-             //window.close();
+            dietPlanObj.restrictions(personBean.getId());
+            window.close();
         });
            VBox layout = new VBox (20);
            layout.setPadding(new Insets (20,20,20,20));
@@ -137,6 +139,7 @@ public class Profile {
         
         
     }
+*/
     public void adminWindow(String title){
         
         Stage window = new Stage();

@@ -30,6 +30,8 @@ public class Diet {
     private int oats;
     private int rice;
     private int corn;
+    private int nuts;
+    private int citrus;
 
     public int getId() {
         return id;
@@ -38,6 +40,7 @@ public class Diet {
     public void setId(int id) {
         this.id = id;
     }
+    
 
     public int getUserId() {
         return userId;
@@ -85,6 +88,20 @@ public class Diet {
 
     public void setEgg(int egg) {
         this.egg = egg;
+    }
+    public int getNuts() {
+        return nuts;
+    }
+
+    public void setNuts(int nuts) {
+        this.nuts = nuts;
+    }
+    public int getCitrus() {
+        return citrus;
+    }
+
+    public void setCitrus(int citrus) {
+        this.citrus = citrus;
     }
 
     public int getSeafood() {
