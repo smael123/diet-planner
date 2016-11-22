@@ -5,7 +5,9 @@
  */
 package appgui;
 
+import appgui.beans.FriendlySchedule;
 import appgui.beans.MealSchedule;
+import appgui.tables.ManagerFriendlySchedule;
 import appgui.tables.ManagerMealSchedule;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -32,7 +34,7 @@ public class MealScheduleGUI {
     private static BorderPane borderPane;
     private static HBox buttonBox;
     
-    private static TableView<MealSchedule> mealTable;
+    private static TableView<FriendlySchedule> mealTable;
     private static Button mainMenuButton;
     private static Label titleLabel;
     
@@ -54,15 +56,55 @@ public class MealScheduleGUI {
         window.setTitle("Meal Schedule");
         
         //mealTable columns
-        TableColumn<MealSchedule, Integer> foodIdColumn = new TableColumn<>("Food ID");
-        foodIdColumn.setMinWidth(100);
-        foodIdColumn.setCellValueFactory(new PropertyValueFactory<>("foodId"));
+        TableColumn<FriendlySchedule, String> foodNameColumn = new TableColumn<>("Name");
+        foodNameColumn.setMinWidth(100);
+        foodNameColumn.setCellValueFactory(new PropertyValueFactory<>("foodName"));
+        
+        TableColumn<FriendlySchedule, String> foodTypeColumn = new TableColumn<>("Type");
+        foodTypeColumn.setMinWidth(100);
+        foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("foodType"));
+        
+        TableColumn<FriendlySchedule, String> dayColumn = new TableColumn<>("Day");
+        dayColumn.setMinWidth(100);
+        dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+        
+        TableColumn<FriendlySchedule, String> dayTimeColumn = new TableColumn<>("Day Time");
+        dayTimeColumn.setMinWidth(100);
+        dayTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dayTime"));
+        
+        TableColumn<FriendlySchedule, Integer> calorieColumn = new TableColumn<>("Calorie");
+        calorieColumn.setMinWidth(100);
+        calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calorie"));
+        
+        TableColumn<FriendlySchedule, Integer> totalCalorieColumn = new TableColumn<>("Total Calorie");
+        totalCalorieColumn.setMinWidth(100);
+        totalCalorieColumn.setCellValueFactory(new PropertyValueFactory<>("totalCalorie"));
+        
+        TableColumn<FriendlySchedule, Integer> totalFatColumn = new TableColumn<>("Total Calorie");
+        totalFatColumn.setMinWidth(100);
+        totalFatColumn.setCellValueFactory(new PropertyValueFactory<>("totalFat"));
+        
+        TableColumn<FriendlySchedule, Integer> carbColumn = new TableColumn<>("Carb");
+        carbColumn.setMinWidth(100);
+        carbColumn.setCellValueFactory(new PropertyValueFactory<>("carb"));
+        
+        TableColumn<FriendlySchedule, Integer> proteinColumn = new TableColumn<>("Protein");
+        proteinColumn.setMinWidth(100);
+        proteinColumn.setCellValueFactory(new PropertyValueFactory<>("protein"));
+        
+        TableColumn<FriendlySchedule, Double> vitaminCColumn = new TableColumn<>("Vitamin C DV");
+        vitaminCColumn.setMinWidth(100);
+        vitaminCColumn.setCellValueFactory(new PropertyValueFactory<>("vitaminC"));
+        
+        TableColumn<FriendlySchedule, Double> calciumColumn = new TableColumn<>("Calcium DV");
+        calciumColumn.setMinWidth(100);
+        calciumColumn.setCellValueFactory(new PropertyValueFactory<>("calcium"));
         
         //initialize table
         mealTable = new TableView<>();
         try 
         {
-            mealTable.setItems(ManagerMealSchedule.getMealScheduleList(userId));
+            mealTable.setItems(ManagerFriendlySchedule.getFriendlySchedule(userId));
         } 
         catch (SQLException ex) 
         {
@@ -70,7 +112,17 @@ public class MealScheduleGUI {
         }
         
         //set columns
-        mealTable.getColumns().addAll(foodIdColumn);
+        mealTable.getColumns().addAll(foodNameColumn);
+        mealTable.getColumns().addAll(foodTypeColumn);
+        mealTable.getColumns().addAll(dayColumn);
+        mealTable.getColumns().addAll(dayTimeColumn);
+        mealTable.getColumns().addAll(calorieColumn);
+        mealTable.getColumns().addAll(totalCalorieColumn);
+        mealTable.getColumns().addAll(totalFatColumn);
+        mealTable.getColumns().addAll(carbColumn);
+        mealTable.getColumns().addAll(proteinColumn);
+        mealTable.getColumns().addAll(vitaminCColumn);
+        mealTable.getColumns().addAll(calciumColumn);
         
         buttonBox = new HBox();
         buttonBox.getChildren().addAll(mainMenuButton);
@@ -88,17 +140,17 @@ public class MealScheduleGUI {
         window.showAndWait();
     }
     
-    private static ObservableList<MealSchedule> populateMealScheduleList(int userId)
-    {
-        try 
-        {
-            ObservableList<MealSchedule> meals = ManagerMealSchedule.getMealScheduleList(userId);
-            return meals;
-        } 
-        catch (SQLException ex) 
-        {
-            System.out.println("Error, no rows affected");
-            return null;
-        }
-    }
+//    private static ObservableList<MealSchedule> populateMealScheduleList(int userId)
+//    {
+//        try 
+//        {
+//            ObservableList<MealSchedule> meals = ManagerMealSchedule.getMealScheduleList(userId);
+//            return meals;
+//        } 
+//        catch (SQLException ex) 
+//        {
+//            System.out.println("Error, no rows affected");
+//            return null;
+//        }
+//    }
 }

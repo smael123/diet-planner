@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -27,10 +28,21 @@ public class ManagerMealSchedule {
         String sql = "INSERT into mealschedule (userId, foodId, quantity, day, dayTime) " +
         "VALUES (?,?,?,?,?)";
 
+        return callPreparedInsertStatement(sql, mealBean);
+    }
+    
+    public static boolean setMinimalMealSchedule(MealSchedule mealBean) throws SQLException
+    {
+        String sql = "INSERT int mealSchedule (userId, foodId, day) VALUES (?,?,?)";
+        return callPreparedInsertStatement(sql, mealBean);
+    }
+    //this will only work with setMealSchedule becase of number of argumments
+    public static boolean callPreparedInsertStatement(String sql, MealSchedule mealBean) throws SQLException
+    {
         ResultSet keys = null;
         
         try(Connection conn = new DBConnection().connect();
-            PreparedStatement stmt = conn.prepareStatement(sql);)
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);)
         {
             stmt.setInt(1, mealBean.getUserId());
             stmt.setInt(2, mealBean.getFoodId());

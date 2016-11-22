@@ -85,7 +85,7 @@ public class ManagerFood {
                 numberOfRows++;
                 Food foodBean = new Food();
                 foodBean.setFoodName(rs.getString("foodName"));
-                foodBean.setFoodType(rs.getString("food.foodType"));
+                foodBean.setFoodType(rs.getString("foodType"));
                 
                 foodList.add(foodBean);
             }   
@@ -142,8 +142,10 @@ public class ManagerFood {
             {
                 numberOfRows++;
                 Food foodBean = new Food();
+                foodBean.setId(rs.getInt("id"));
+                System.out.println(foodBean.getId());
                 foodBean.setFoodName(rs.getString("foodName"));
-                foodBean.setFoodType(rs.getString("food.foodType"));
+                foodBean.setFoodType(rs.getString("foodType"));
                 
                 foodList.add(foodBean);
             }   
