@@ -54,6 +54,7 @@ public class ManagerPerson {
                bean.setBMI(rs.getDouble("BMI"));
                bean.setWeight(rs.getInt("weight"));
                bean.setAthletic(rs.getBoolean("athletic"));
+               bean.setAdmin(rs.getInt("admin"));
                
                return bean;
                 
@@ -75,8 +76,8 @@ public class ManagerPerson {
         
         
     public static boolean insertPerson(Person bean) throws SQLException{
-        String sql = "INSERT into person (username,pword)" +
-                "VALUES (?,?)";
+        String sql = "INSERT into person (username,pword,age, height,gender, weight,admin)" +
+                "VALUES (?,?,?,?,?,?,?)";
         ResultSet keys = null;
         
         try(
@@ -86,6 +87,12 @@ public class ManagerPerson {
                 ){
             stmt.setString(1, bean.getUsername());
             stmt.setString(2,bean.getPword());
+            stmt.setInt(3,bean.getAge());
+           stmt.setInt(4,bean.getHeight());
+           stmt.setString(5,bean.getGender());
+           stmt.setInt(6,bean.getWeight());
+           stmt.setInt(7,bean.getAdmin());
+            
             int affected = stmt.executeUpdate();
             
             if(affected ==1){

@@ -222,7 +222,7 @@ public class dietPlan {
         
 
     }
-    public void handleChangesDiet(){
+    /*public void handleChangesDiet(){
         String message = "Cahnges made: ";
         ObservableList<String> restrictions;
         restrictions= listDiet.getSelectionModel().getSelectedItems();
@@ -233,9 +233,9 @@ public class dietPlan {
         System.out.println(message);
 
     }
+    */
     
-    
-    public void modifyDiet(String title){
+    /*public void modifyDiet(String title){
         //show what's on their diet 
    
         String seafood = "Seafood";
@@ -292,6 +292,7 @@ public class dietPlan {
         
         
     }
+*/
  }
            
          

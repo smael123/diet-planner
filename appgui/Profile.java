@@ -63,7 +63,7 @@ public class Profile {
              window.close();
         });
         
-        //confirm and send button
+        /*
         Button modifyDiet = new Button("Modify Diet");
         GridPane.setConstraints(modifyDiet,2,2);
         //save al users selection when done
@@ -73,7 +73,7 @@ public class Profile {
             
              //window.close();
         });
-        
+        */
         Button viewMealSchedule = new Button("View Meal Schedule");
         
         viewMealSchedule.setOnAction(e ->
@@ -155,7 +155,7 @@ public class Profile {
         
         VBox layout = new VBox (20);
         layout.setPadding(new Insets (20,20,20,20));
-        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, viewMealSchedule, choosePreferenceLabel, noPreference, musclePreference, loseWeightPreference, stayHealthyPreference);
+        layout.getChildren().addAll(logout, chooseRestrictions, viewMealSchedule, choosePreferenceLabel, noPreference, musclePreference, loseWeightPreference, stayHealthyPreference);
                    
  
         
@@ -211,8 +211,28 @@ public class Profile {
         
         //confirm and send button
         Button deleteFood = new Button("Delete food item");
-        TextField food = new TextField();
-        food.setPromptText("Food item to delete");
+        TextField foodDelete = new TextField();
+        foodDelete.setPromptText("Food item to delete");
+        deleteFood.setOnAction(e->{
+            try {
+                
+                if(ManagerFood.deleteFood(foodDelete.getText()));
+                {
+                    Util.alertBox("Sucess", "Food item was deleted");
+                    System.out.println("Food deleted");
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+                Util.alertBox("Error", "Food item was not found");
+                System.err.println("No food found");
+            }
+            
+            
+            window.close();
+            
+        });
+        
         
         
         Button addFood = new Button ("Add food item");
@@ -258,19 +278,6 @@ public class Profile {
             
         });
         
-        
-        
-        //save al users selection when done
-        deleteFood.setOnAction(e->{
-           // methods from diet table  here 
-            
-            
-             
-        });
-        
-        
-        
-        
         deleteUser.setOnAction(e->{
             try {
                 
@@ -294,7 +301,7 @@ public class Profile {
         
            VBox layout = new VBox (20);
            layout.setPadding(new Insets (20,20,20,20));
-           layout.getChildren().addAll(food,deleteFood,food2,foodType,addFood,username,deleteUser);
+           layout.getChildren().addAll(foodDelete,deleteFood,food2,foodType,addFood,username,deleteUser);
            layout.getChildren().add(logout);
            
                    

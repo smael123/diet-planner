@@ -57,12 +57,40 @@ public class ManagerFood {
         }
         return true;
     }
+    public static boolean deleteFood(String foodName) throws Exception{
+        String sql = "DELETE FROM food WHERE foodName = ?";
+        try(
+                Connection conn = new DBConnection().connect();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                
+                ){
+            stmt.setString(1, foodName);
+            int affected = stmt.executeUpdate();
+            
+            if(affected==1){
+                return true;
+            }else{
+                System.out.println("No food was found");
+                return false;
+                
+            }
+          
+        }catch (SQLException e){
+            System.err.println(e);
+            return false;
+        }
+        }
+    
+    
+    
     
     public static ObservableList<Food> getNoPreferenceFoods(int userId) throws SQLException
     {
         String sql = "{call getApplicableFood(?)}";
         return callProcedure(userId, sql);
     }
+    
+    
     
     public static ObservableList<Food> getAllFoods(int userId) throws SQLException
     {
