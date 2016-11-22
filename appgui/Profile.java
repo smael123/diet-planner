@@ -71,16 +71,23 @@ public class Profile {
         Hyperlink musclePreference;
         Hyperlink loseWeightPreference;
         Hyperlink stayHealthyPreference;
+        Hyperlink noPreference;
+        
+        //no preference = 0
+        //musclePreference = 1
+        //loseWeightPreference = 2
+        //stayHealthyPreference = 3
         
         Label choosePreferenceLabel = new Label("Choose your diet preference");
         
+        noPreference = new Hyperlink("No preference");
         musclePreference = new Hyperlink("Get buff!");
         loseWeightPreference = new Hyperlink("Lose Weight");
         stayHealthyPreference = new Hyperlink("Stay Healthy");
         
         //hyperlink event listeners
-        musclePreference.setOnAction(e-> {
-            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername());
+        noPreference.setOnAction(e-> {
+            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 0);
             for (Food x : pickedFoods)
             {
                 System.out.println(x.getFoodName());
@@ -92,7 +99,7 @@ public class Profile {
         
         VBox layout = new VBox (20);
         layout.setPadding(new Insets (20,20,20,20));
-        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, choosePreferenceLabel, musclePreference, loseWeightPreference, stayHealthyPreference);
+        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, choosePreferenceLabel, noPreference, musclePreference, loseWeightPreference, stayHealthyPreference);
                    
  
         
