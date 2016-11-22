@@ -72,6 +72,13 @@ public class Profile {
              //window.close();
         });
         
+        Button viewMealSchedule = new Button("View Meal Schedule");
+        
+        viewMealSchedule.setOnAction(e ->
+        {
+            MealScheduleGUI.display(personBean.getId(), personBean.getUsername());
+        });
+        
         Hyperlink musclePreference;
         Hyperlink loseWeightPreference;
         Hyperlink stayHealthyPreference;
@@ -103,7 +110,7 @@ public class Profile {
         
         VBox layout = new VBox (20);
         layout.setPadding(new Insets (20,20,20,20));
-        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, choosePreferenceLabel, noPreference, musclePreference, loseWeightPreference, stayHealthyPreference);
+        layout.getChildren().addAll(logout, chooseRestrictions,modifyDiet, viewMealSchedule, choosePreferenceLabel, noPreference, musclePreference, loseWeightPreference, stayHealthyPreference);
                    
  
         

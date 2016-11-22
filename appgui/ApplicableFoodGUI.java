@@ -76,7 +76,7 @@ public class ApplicableFoodGUI {
         window = new Stage();
         window.setTitle("Applicable Foods");
         
-        //mealTable columns
+        //foodTable columns
         TableColumn<Food, String> foodNameColumn = new TableColumn<>("Name");
         foodNameColumn.setMinWidth(100);
         foodNameColumn.setCellValueFactory(new PropertyValueFactory<>("foodName"));

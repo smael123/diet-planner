@@ -72,7 +72,7 @@ public class ManagerMealSchedule {
         ResultSet rs = null;
         ObservableList<MealSchedule> meals = FXCollections.observableArrayList();
 
-        try (Connection conn = null;
+        try (Connection conn = new DBConnection().connect();
              PreparedStatement stmt = conn.prepareStatement(sql);)
         {
             rs = stmt.executeQuery(sql);
