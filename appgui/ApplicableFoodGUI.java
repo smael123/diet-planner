@@ -93,13 +93,17 @@ public class ApplicableFoodGUI {
             switch (preferenceType)
             {
                 case 0:
-                    foodTable.setItems(ManagerFood.getAllFoods(userId));
+                    foodTable.setItems(ManagerFood.getNoPreferenceFoods(userId));
+                    break;
                 case 1:
                     foodTable.setItems(ManagerFood.getApplicableMuscleFoods(userId));
+                    break;
                 case 2:
                     foodTable.setItems(ManagerFood.getApplicableThinFoods(userId));
+                    break;
                 default:
                     System.out.println("Preference type: " + preferenceType + " is not valid.");
+                    break;
  
             }
                     

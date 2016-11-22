@@ -6,9 +6,11 @@
 package appgui;
 
 import appgui.beans.Food;
+import appgui.beans.MealSchedule;
 import appgui.beans.Person;
 import static appgui.popUpWindow.confirmation;
 import appgui.tables.ManagerFood;
+import appgui.tables.ManagerMealSchedule;
 import appgui.tables.ManagerPerson;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -99,12 +101,55 @@ public class Profile {
         //hyperlink event listeners
         noPreference.setOnAction(e-> {
             ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 0);
+            MealSchedule mealBean = new MealSchedule();
+            int dayCounter = 0;
+            int dayTimeCounter = 0;
+            for (Food x : pickedFoods)
+            {
+                mealBean.setFoodId(x.getId());
+                mealBean.setUserId(personBean.getId());
+                mealBean.setQuantity(1);
+                System.out.println(x.getFoodName());
+                if (dayCounter == 7)
+                    dayCounter = 0;
+                mealBean.setDay(dayCounter++);
+                if (dayTimeCounter == 3)
+                    dayTimeCounter = 0;
+                mealBean.setDayTime(dayTimeCounter++);
+                
+                try {
+                    if (ManagerMealSchedule.setMealSchedule(mealBean))
+                    {
+                        System.out.println("Meal Schedule set");
+                    }
+                    else
+                        System.out.println("ERROR: Meal Schedule not set");
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+            //And take his picked foods and put his foods in the MealSchedule based on userId
+           
+        });
+        musclePreference.setOnAction(e->
+        {
+            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 1);
             for (Food x : pickedFoods)
             {
                 System.out.println(x.getFoodName());
             }
             
-            //And take his picked foods and put his foods in the MealSchedule based on userId
+            
+        });
+        
+        loseWeightPreference.setOnAction(e->
+        {
+           ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 2);
+            for (Food x : pickedFoods)
+            {
+                System.out.println(x.getFoodName());
+            } 
         });
         
         
