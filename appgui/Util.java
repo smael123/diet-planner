@@ -35,6 +35,13 @@ public class Util {
     return false;
         }
     }
+     public static int convertBoolToInt(boolean b)
+     {
+         if (b)
+             return 1;
+         else
+             return 0;
+     }
     public static void alertBox(String title, String message){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
