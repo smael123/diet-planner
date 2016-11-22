@@ -24,17 +24,50 @@ import javafx.stage.Stage;
  */
 public class Util {
     
-     private static boolean isInt(TextField input, String message){
+     /*private static boolean isInt(TextField input, String message){
         try{
-            int age= Integer.parseInt(input.getText());
-            System.out.println("User is "+ age);
+            int num= Integer.parseInt(input.getText());
+            System.out.println("User is entered " + num); 
             return true;
         
     }catch (NumberFormatException e){
     System.out.println("Error" + message + "is not a number");
     return false;
         }
+    }*/
+    public static int convertStringToInt(String s){
+        try{
+        int num = Integer.parseInt(s);
+         System.out.println("User entered " + num); 
+            return num;
+        
+    }catch(NumberFormatException e){
+    System.out.println("Error not a number");
+    return 0;
+        }
     }
+     
+     
+      /*public static int convertBoolToInt(boolean s){
+        int num=0;
+        
+        try{
+            
+            if(s==true){
+         num = 1;
+         System.out.println("User entered " + num); 
+           
+        }
+    }catch(NumberFormatException e){
+    System.out.println("Error not a number");
+    
+        
+    }
+        return num;
+    }
+     
+    */
+    
      public static int convertBoolToInt(boolean b)
      {
          if (b)

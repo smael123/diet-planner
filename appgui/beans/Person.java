@@ -20,6 +20,7 @@ public class Person {
     private int weight;
     private double BMI;
     private boolean athletic;
+    private int admin;
     
     
    public Person(){}
@@ -77,6 +78,12 @@ public class Person {
     public String getGender() {
         return gender;
     }
+    public int getAdmin(){
+        return admin;
+    }
+    public void setAdmin(int admin){
+        this.admin = admin;
+    }
 
     public void setGender(String gender) {
         this.gender = gender;
@@ -87,6 +94,9 @@ public class Person {
     public void setHeight(String height) {
         int height2  = Integer.parseInt(height);
         this.height = height2;
+    }
+    public int getHeight(){
+        return height;
     }
 
     public int getWeight() {

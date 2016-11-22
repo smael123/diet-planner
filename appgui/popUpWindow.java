@@ -43,10 +43,6 @@ public class popUpWindow {
         username.setPromptText("username");
         GridPane.setConstraints(username, 2,0);
         
-        //confirm username
-        //TextField username2 = new TextField();
-        //username2.setPromptText("confirm username");
-        //GridPane.setConstraints(username2, 2, 1);
         
         //password input
         TextField password = new TextField();
@@ -55,7 +51,7 @@ public class popUpWindow {
         
         //confrim password
         TextField password2 = new TextField();
-        password2.setPromptText(" confirm password");
+        password2.setPromptText("confirm password");
         GridPane.setConstraints(password,2,3 );
         
         //age
@@ -75,8 +71,10 @@ public class popUpWindow {
         weight.setPromptText("weight");
         GridPane.setConstraints(weight,3,6);
         
-        //restrictions menu here 
-        //athletic yes no box here 
+        CheckBox admin = new CheckBox("Admin?");
+        GridPane.setConstraints(admin,3,7);
+        CheckBox athlectic = new CheckBox("Athletic?");
+        GridPane.setConstraints(athlectic,3,8);
         
         //go back to main window button
         Button cancel= new Button("Cancel");
@@ -87,26 +85,27 @@ public class popUpWindow {
         Button reg = new Button("Register");
         GridPane.setConstraints(reg,4,5);
         
-        //insert given values to database
-        
         //insert new row in database person
          reg.setOnAction(e->{
-             //Person bean = new Person("carrie2","bambi","bambi");
+            
             Person bean  = new Person();
             bean.setUsername(username.getText());
             bean.setPword(password.getText());
             bean.setPword2(password2.getText());
+            bean.setGender(gender.getText());
+            bean.setAdmin(Util.convertBoolToInt(admin.isSelected()));
+            
           
             
             //validating data 
-            /*if(isInt(age,age.getText()))
-                bean.setAge(age.getText());
-            if(isInt(height,height.getText()));
-                bean.setHeight(height.getText());
-            if(isInt(weight, weight.getText()));
-                bean.setWeight(weight.getText());
-            */
-                
+            int age1 = Util.convertStringToInt(age.getText());
+            bean.setAge(age1);
+            int height1 = Util.convertStringToInt(height.getText());
+            bean.setAge(height1);
+            int weight1 = Util.convertStringToInt(age.getText());
+            bean.setAge(weight1);
+            
+             
             try {
                 boolean result = ManagerPerson.insertPerson(bean);
                 System.out.println(result);
@@ -123,8 +122,8 @@ public class popUpWindow {
         });
         
         
-        grid.getChildren().addAll(username, password,password2, age,gender,height
-          ,cancel,reg);
+        grid.getChildren().addAll(username, password,password2, age,gender,height,admin,
+          athlectic,cancel,reg);
         
         Scene scene = new Scene(grid);
         window.setScene(scene);
@@ -242,7 +241,7 @@ public class popUpWindow {
         
        
         //username input
-        TextField adminUsername = new TextField("");
+        TextField adminUsername = new TextField();
         adminUsername.setPromptText("username");
         GridPane.setConstraints(adminUsername,1,0);
        
@@ -266,14 +265,19 @@ public class popUpWindow {
              try {
                 
                 Person bean= ManagerPerson.getPerson(adminUsername.getText());
+                System.out.println(bean.getAdmin());
                if(bean==null){
-                   Util.alertBox("Error","Admin was not found");
-             }else{
+                   Util.alertBox("Error","Admin user was not found");
+             }else if(bean.getAdmin()==0){
+                 
+                 System.out.println("Admin? "+ bean.getAdmin());
+                 Util.alertBox("Error","Not an Admin");
+                     }else{
              System.out.println("Username: " + bean.getUsername());
              System.out.println("Password: " + bean.getPword());
              
              Profile adminProfile = new Profile();
-             adminProfile.adminWindow("Welcome Admin");
+             adminProfile.adminWindow("Welcome "+ bean.getUsername());
             
              
              
