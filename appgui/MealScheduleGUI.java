@@ -80,7 +80,7 @@ public class MealScheduleGUI {
         totalCalorieColumn.setMinWidth(100);
         totalCalorieColumn.setCellValueFactory(new PropertyValueFactory<>("totalCalorie"));
         
-        TableColumn<FriendlySchedule, Integer> totalFatColumn = new TableColumn<>("Total Calorie");
+        TableColumn<FriendlySchedule, Integer> totalFatColumn = new TableColumn<>("Total Fat");
         totalFatColumn.setMinWidth(100);
         totalFatColumn.setCellValueFactory(new PropertyValueFactory<>("totalFat"));
         

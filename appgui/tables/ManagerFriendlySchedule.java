@@ -59,18 +59,25 @@ public class ManagerFriendlySchedule {
                 {
                     case 0:
                         friendlyBean.setDay("Sunday");
+                        break;
                     case 1:
                         friendlyBean.setDay("Monday");
+                        break;
                     case 2:
                         friendlyBean.setDay("Tuesday");
+                        break;
                     case 3:
                         friendlyBean.setDay("Wednesday");
+                        break;
                     case 4:
                         friendlyBean.setDay("Thursday");
+                        break;
                     case 5:
                         friendlyBean.setDay("Friday");
+                        break;
                     case 6:
                         friendlyBean.setDay("Saturday");
+                        break;
                 }
                 
                 friendlyBean.setCalorie(rs.getInt("calorieCount"));
