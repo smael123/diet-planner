@@ -52,12 +52,12 @@ public class ApplicableFoodGUI {
     //maybe make this a set because they might pick the same thing twice
     private static ArrayList<Food> pickedFoods;
     
-    public static ArrayList<Food> display(int userId, String username, int preferenceType)
+    public static ArrayList<Food> display(int userId, String username, int preferenceType, String title)
     {
         System.out.println("ID: " + userId + " Username: " + username);
         
         //buttons and labels and the table
-        titleLabel = new Label("Applicable Foods for " + username);
+        titleLabel = new Label("Applicable " + title + " Foods for " + username);
         titleLabel.setPadding(new Insets(10,10,10,10));
         //titleLabel.setAlignment(Pos.CENTER);
         mainMenuButton = new Button("Return to Main Menu");
@@ -74,7 +74,7 @@ public class ApplicableFoodGUI {
         
         //window initialization
         window = new Stage();
-        window.setTitle("Applicable Foods");
+        window.setTitle(title);
         
         //foodTable columns
         TableColumn<Food, String> foodNameColumn = new TableColumn<>("Name");
