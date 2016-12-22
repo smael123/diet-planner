@@ -33,7 +33,7 @@ public class ManagerNutritonalValue {
             if (rs.next())
             {
                 NutritionalValue bean = new NutritionalValue();
-                bean.setId(rs.getInt("id"));
+                //bean.setId(rs.getInt("id"));
                 bean.setFoodId(rs.getInt("foodId"));
                 bean.setCalorieCount(rs.getInt("calorieCount"));
                 bean.setSugarCount(rs.getInt("sugarCount"));

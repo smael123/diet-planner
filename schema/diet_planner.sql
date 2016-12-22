@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2016 at 10:40 PM
+-- Generation Time: Dec 22, 2016 at 03:35 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -141,6 +141,14 @@ BEGIN
     JOIN nutritionalvalue ON vegetables.id = nutritionalvalue.foodId;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDailyCounts` (IN `userIdInput` INT)  NO SQL
+SELECT mealschedule.day, SUM(nutritionalvalue.calorieCount) AS totalCalorie FROM mealschedule
+JOIN person ON person.id = mealschedule.userId
+JOIN food ON food.id = mealschedule.foodId
+JOIN nutritionalvalue ON nutritionalvalue.foodId = mealschedule.foodId
+WHERE person.id = userIdInput
+GROUP BY mealschedule.day ORDER BY food.id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFriendlyMealSchedule` (IN `userIdInput` INT)  NO SQL
 SELECT person.id, mealschedule.foodId, food.foodName, food.foodType, mealschedule.day, mealschedule.dayTime, nutritionalvalue.calorieCount, SUM(nutritionalvalue.calorieCount) AS totalCalorie, (nutritionalvalue.transfatCount + nutritionalvalue.saturatedFatCount + nutritionalvalue.unsaturatedFatCount) AS totalFat, nutritionalvalue.carbCount, nutritionalvalue.proteinCount, nutritionalvalue.vitaminCDV, nutritionalvalue.calciumDV FROM mealschedule
 JOIN person ON person.id = mealschedule.userId
@@ -148,6 +156,29 @@ JOIN food ON food.id = mealschedule.foodId
 JOIN nutritionalvalue ON nutritionalvalue.foodId = mealschedule.foodId
 WHERE person.id = userIdInput
 GROUP BY mealschedule.day ORDER BY food.id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMeatTypeCount` ()  BEGIN
+        SELECT COUNT(*) AS total FROM meat;
+        
+        SELECT COUNT(*) AS pork FROM meat WHERE meat.meatType = "pork";       
+        SELECT COUNT(*) AS chicken FROM meat WHERE meat.meatType = "chicken";
+        SELECT COUNT(*)AS cow FROM meat WHERE meat.meatType = "cow";
+        SELECT COUNT(*) AS turkey FROM meat WHERE meat.meatType = "turkey";
+        SELECT COUNT(*) AS veal FROM meat WHERE meat.meatType = "veal";
+        SELECT COUNT(*) AS fish FROM meat WHERE meat.meatType = "fish";
+   END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getNumberOfLegumes` ()  NO SQL
+SELECT (SUM(vegetables.legume) + SUM(fruit.legume)) AS totalLegume FROM vegetables JOIN fruit$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getObeseCount` (OUT `obeseCount` DOUBLE)  NO SQL
+SELECT COUNT(person.BMI) INTO obeseCount FROM person WHERE person.BMI >= 30$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getOverweightCount` (OUT `overweightCount` DOUBLE)  NO SQL
+SELECT COUNT(person.BMI) INTO overweightCount FROM person WHERE person.BMI >= 25$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRestrictionCount` ()  NO SQL
+SELECT SUM(egg) AS eggTotal, SUM(seafood) AS seafoodTotal, SUM(redMeat) AS redMeatTotal, SUM(shellfish) AS shellfishTotal, SUM(shrimp) AS shrimpTotal, SUM(legume) AS legumeTotal, SUM(lactose) AS lactoseTotal, SUM(gluten) AS glutenTotal, SUM(whiteBread) AS whiteBreadTotal, SUM(wheat) AS wheatTotal, SUM(oats) AS oatsTotal, SUM(rice) AS riceTotal, SUM(corn) AS cornTotal, SUM(nuts) AS nutsTotal, SUM(citrus) AS citrusTotal FROM diet$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertDairy` (IN `foodNameInput` VARCHAR(20), IN `superfoodInput` INT, IN `lactoseInput` INT, IN `calorie` INT, IN `sugar` INT, IN `transFat` INT, IN `saturatedFat` INT, IN `unsaturatedFat` INT, IN `carb` INT, IN `protein` INT, IN `cholesterol` INT, IN `vitaminB` DOUBLE, IN `vitaminC` DOUBLE, IN `vitaminD` DOUBLE, IN `folicAcid` DOUBLE, IN `calcium` DOUBLE)  BEGIN
 	SET @x = 0;
@@ -258,6 +289,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertVegetables` (IN `foodNameInpu
         folicAcidDV = folicAcid,
         calciumDV = calcium
    WHERE foodId = @x;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `BMI` (`weight` INT, `height` INT) RETURNS DOUBLE BEGIN
+    DECLARE BMI DOUBLE;
+ 
+    
+ 	SET BMI = ((weight / (height * height)) * 703);
+    
+ 
+ RETURN (BMI);
 END$$
 
 DELIMITER ;
@@ -503,7 +547,7 @@ CREATE TABLE `meat` (
 --
 
 INSERT INTO `meat` (`id`, `foodType`, `meatType`, `egg`, `seafood`, `redMeat`, `shellfish`, `shrimp`) VALUES
-(14, 'meat', 'beef', 0, 0, 1, 0, 0),
+(14, 'meat', 'cow', 0, 0, 1, 0, 0),
 (15, 'meat', 'chicken', 0, 0, 0, 0, 0),
 (17, 'meat', NULL, 0, 0, 0, 0, 0),
 (19, 'meat', NULL, 0, 0, 0, 0, 0);
@@ -515,7 +559,6 @@ INSERT INTO `meat` (`id`, `foodType`, `meatType`, `egg`, `seafood`, `redMeat`, `
 --
 
 CREATE TABLE `nutritionalvalue` (
-  `id` int(11) NOT NULL,
   `foodId` int(11) NOT NULL,
   `calorieCount` int(11) DEFAULT '0',
   `sugarCount` int(11) DEFAULT '0',
@@ -536,26 +579,26 @@ CREATE TABLE `nutritionalvalue` (
 -- Dumping data for table `nutritionalvalue`
 --
 
-INSERT INTO `nutritionalvalue` (`id`, `foodId`, `calorieCount`, `sugarCount`, `transfatCount`, `saturatedFatCount`, `unsaturatedFatCount`, `carbCount`, `proteinCount`, `cholesterolCount`, `vitaminBDV`, `vitaminCDV`, `vitaminDDV`, `folicAcidDV`, `calciumDV`) VALUES
-(1, 1, 103, 13, 0, 2, 1, 12, 8, 12, 0.18, 0, 0, 0, 0.3),
-(2, 2, 100, 6, 0, 0, 0, 6, 17, 9, 0.21, 0, 0, 0, 0.18),
-(3, 3, 137, 14, 0, 5, 2, 16, 2, 29, 0.05, 0, 0.01, 0.02, 0.08),
-(4, 4, 113, 0, 0, 6, 3, 0, 7, 29, 0.03, 0, 0.01, 0, 0.2),
-(5, 5, 22, 0, 0, 1, 1, 0, 2, 4, 0.01, 0, 0, 0, 0.05),
-(6, 6, 78, 0, 0, 3, 2, 1, 8, 15, 0.05, 0, 0.01, 0, 0.2),
-(7, 7, 477, 1, 0, 25, 12, 3, 30, 101, 0.26, 0, 0.07, 0, 0.71),
-(8, 8, 101, 1, 0, 5, 2, 1, 7, 32, 0, 0, 0.01, 0, 0.19),
-(9, 9, 95, 19, 0, 0, 0, 25, 1, 0, 0, 0.14, 0, 0.17, 0.01),
-(10, 10, 45, 9, 0, 0, 0, 11, 1, 0, 0, 0.85, 0, 0.09, 0.03),
-(11, 11, 17, 2, 0, 0, 0, 5, 1, 0, 0, 0.51, 0, 0.06, 0.01),
-(12, 12, 234, 1, 0, 3, 17, 12, 3, 0, 0, 0.24, 0, 0.4, 0.01),
-(13, 13, 158, 1, 0, 1, 2, 27, 6, 0, 0, 0, 0, 0.16, 0.18),
-(14, 14, 852, 0, 4, 27, 34, 0, 77, 268, 1.55, 0, 0.03, 0, 0.04),
-(15, 15, 231, 0, 0, 1, 3, 0, 43, 119, 0.08, 0, 0.01, 0, 0.02),
-(16, 16, 50, 3, 0, 0, 0, 10, 4, 0, 0, 2.2, 0, 0.15, 0.07),
-(17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(19, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `nutritionalvalue` (`foodId`, `calorieCount`, `sugarCount`, `transfatCount`, `saturatedFatCount`, `unsaturatedFatCount`, `carbCount`, `proteinCount`, `cholesterolCount`, `vitaminBDV`, `vitaminCDV`, `vitaminDDV`, `folicAcidDV`, `calciumDV`) VALUES
+(1, 103, 13, 0, 2, 1, 12, 8, 12, 0.18, 0, 0, 0, 0.3),
+(2, 100, 6, 0, 0, 0, 6, 17, 9, 0.21, 0, 0, 0, 0.18),
+(3, 137, 14, 0, 5, 2, 16, 2, 29, 0.05, 0, 0.01, 0.02, 0.08),
+(4, 113, 0, 0, 6, 3, 0, 7, 29, 0.03, 0, 0.01, 0, 0.2),
+(5, 22, 0, 0, 1, 1, 0, 2, 4, 0.01, 0, 0, 0, 0.05),
+(6, 78, 0, 0, 3, 2, 1, 8, 15, 0.05, 0, 0.01, 0, 0.2),
+(7, 477, 1, 0, 25, 12, 3, 30, 101, 0.26, 0, 0.07, 0, 0.71),
+(8, 101, 1, 0, 5, 2, 1, 7, 32, 0, 0, 0.01, 0, 0.19),
+(9, 95, 19, 0, 0, 0, 25, 1, 0, 0, 0.14, 0, 0.17, 0.01),
+(10, 45, 9, 0, 0, 0, 11, 1, 0, 0, 0.85, 0, 0.09, 0.03),
+(11, 17, 2, 0, 0, 0, 5, 1, 0, 0, 0.51, 0, 0.06, 0.01),
+(12, 234, 1, 0, 3, 17, 12, 3, 0, 0, 0.24, 0, 0.4, 0.01),
+(13, 158, 1, 0, 1, 2, 27, 6, 0, 0, 0, 0, 0.16, 0.18),
+(14, 852, 0, 4, 27, 34, 0, 77, 268, 1.55, 0, 0.03, 0, 0.04),
+(15, 231, 0, 0, 1, 3, 0, 43, 119, 0.08, 0, 0.01, 0, 0.02),
+(16, 50, 3, 0, 0, 0, 10, 4, 0, 0, 2.2, 0, 0.15, 0.07),
+(17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -583,7 +626,7 @@ CREATE TABLE `person` (
 INSERT INTO `person` (`id`, `username`, `pword`, `age`, `gender`, `height`, `weight`, `BMI`, `athletic`, `admin`) VALUES
 (4, 'ARROW', 'OLIVER', 18, 'male', 60, 100, NULL, 0, 0),
 (5, 'SDFD', 'DDD', 18, 'male', 60, 100, NULL, 0, 0),
-(6, 'jojo', 'dio', 18, 'male', 60, 100, NULL, 0, 0),
+(6, 'jojo', 'dio', 18, 'male', 60, 100, 19.527777231, 0, 0),
 (8, 'speedwagon', 'abs', 22, 'female', 0, 0, NULL, 0, 1),
 (9, 'tarkus', 'blue', 22, 'female', 0, 0, NULL, 0, 1);
 
@@ -591,8 +634,10 @@ INSERT INTO `person` (`id`, `username`, `pword`, `age`, `gender`, `height`, `wei
 -- Triggers `person`
 --
 DELIMITER $$
-CREATE TRIGGER `addDiet` AFTER INSERT ON `person` FOR EACH ROW INSERT INTO diet (userId)
-VALUES (NEW.id)
+CREATE TRIGGER `addDiet` AFTER INSERT ON `person` FOR EACH ROW BEGIN
+ 	INSERT INTO diet (userId) VALUES (NEW.id);
+    UPDATE person SET person.BMI = BMI(person.weight, person.height);
+ END
 $$
 DELIMITER ;
 
@@ -673,7 +718,7 @@ ALTER TABLE `meat`
 -- Indexes for table `nutritionalvalue`
 --
 ALTER TABLE `nutritionalvalue`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`foodId`),
   ADD UNIQUE KEY `foodId` (`foodId`);
 
 --
@@ -709,11 +754,6 @@ ALTER TABLE `food`
 --
 ALTER TABLE `mealschedule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
---
--- AUTO_INCREMENT for table `nutritionalvalue`
---
-ALTER TABLE `nutritionalvalue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `person`
 --

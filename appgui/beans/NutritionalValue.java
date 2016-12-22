@@ -10,7 +10,6 @@ package appgui.beans;
  * @author lucy
  */
 public class NutritionalValue {
-    private int id;
     private int foodId;
     private int calorieCount;
     private int sugarCount;
@@ -25,20 +24,6 @@ public class NutritionalValue {
     private double vitaminDDV;
     private double folicAcidDV;
     private double calciumDV;
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
 
     /**
      * @return the foodId

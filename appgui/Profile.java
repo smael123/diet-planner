@@ -100,7 +100,7 @@ public class Profile {
         
         //hyperlink event listeners
         noPreference.setOnAction(e-> {
-            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 0);
+            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 0, "No preference");
             MealSchedule mealBean = new MealSchedule();
             int dayCounter = 0;
             int dayTimeCounter = 0;
@@ -134,7 +134,7 @@ public class Profile {
         });
         musclePreference.setOnAction(e->
         {
-            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 1);
+            ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 1, "Muscle");
             for (Food x : pickedFoods)
             {
                 System.out.println(x.getFoodName());
@@ -145,7 +145,7 @@ public class Profile {
         
         loseWeightPreference.setOnAction(e->
         {
-           ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 2);
+           ArrayList<Food> pickedFoods = ApplicableFoodGUI.display(personBean.getId(), personBean.getUsername(), 2, "Weight loss");
             for (Food x : pickedFoods)
             {
                 System.out.println(x.getFoodName());
